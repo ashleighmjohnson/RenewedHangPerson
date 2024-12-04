@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: #000;
+            color: white;
+            text-align: center;
+            background-image: url(treesBG.avif);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        head h1 {
+            color: black;
+            font-size: 50px;
+            margin: 0; 
+            padding-top: 10px;
+            margin-top: 45px;
+        }
+        .head p {
+            color: black;
+            font-size: 25px;
+            margin: 0; 
+            padding-bottom: 30px;
+        }
+        a {
+            color: #ff7e5f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 700px;
+            padding: 20px;
+            background: black;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid black;
+            
+            border-radius: 5px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: white;
+            border-radius: 0px black;
+            color: #fff;
+            cursor: pointer;
+            color: black;        }
+        .login-container button:hover {
+            transform: scale(1.01);
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <audio src='/Valorant.mp3' autoplay></audio>
+
+    <div class="login-container">
+        <div><h2>Login</h2></div>
+        <div>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="pword" placeholder="Password" required>
+                <button type="submit">Login</button>
+                <div class="error-message" id="errorMessage"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const pword = document.getElementById('pword').value;
+
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, pword })
+            });
+
+            if (response.ok) {
+                window.location.href = '/welcomePage';
+            } else {
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = 'Invalid username or password';
+            }
+        });
+    </script>
+</body>
+</html></form>
