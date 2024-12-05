@@ -5,46 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
     <link rel="stylesheet" href="/style.css">
-    <script src="scripts.js"></script>
     <script>
-        menu();
-        async function loadLeaders() {
-            const response = await fetch('/get-leaders');
-            if (response.ok) {
-                const leaders = await response.json();
-                const leaderList = document.getElementById('leaderboard-list');
-                leaderList.innerHTML = '';
-                leaders.forEach(leader => {
-                    const li = document.createElement('div');
-                    li.style = 'display: flex; flex-direction: row;'
-                    li.innerHTML = `
-                        <div style="width: 250px;">${leader.username}</div>
-                        <div style="width: 250px; text-align: center;">0</div>
-                        <div style="width: 250px; text-align: center;">0</div>
-                    `;
-                    leaderList.appendChild(li);
+        async function fetchLeaderboard() {
+            try {
+
+                const response = await fetch('http://localhost:3000/leaderboard');
+                
+                const rawData = await response.text();
+                console.log('Raw response:', rawData); 
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch leaderboard data');
+                }
+
+                const leaderboard = JSON.parse(rawData);
+
+                const leaderboardList = document.getElementById('leaderboard-list');
+                leaderboardList.innerHTML = ''; 
+
+                leaderboard.forEach((player, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<b>Player ${index + 1}:</b> ${player.username} - ${player.puzzles_completed} puzzles completed (Streak: ${player.daily_streak})`;
+                    leaderboardList.appendChild(li);
                 });
-            } else {
-                alert('Failed to load words');
+            } catch (error) {
+                console.error('Error fetching leaderboard:', error);
+                alert('Failed to load leaderboard data');
             }
         }
-        loadLeaders();
+
+        window.onload = fetchLeaderboard;
     </script>
 </head>
 <body>
-    <!-- do not delete menu -->
-    <div id="menu"></div>
-    <div id="container">
-        <ul id="leaderBoard"></ul>
-         <div class="leaderboard">
-            <h2>Leaderboard</h2>
-            <div style="display: flex; flex-direction: row;">
-                <div style="width: 250px;">Username</div>
-                <div style="width: 250px; text-align: center;">Solved</div>
-                <div style="width: 250px; text-align: center;">Streak</div>
-            </div>
-            <ul id="leaderboard-list"></ul>
-        </div>
+
+    <audio src='/Valorant.mp3' autoplay></audio>
+
+    <div class="leaderboard">
+        <h2>Leaderboard</h2>
+        <ul id="leaderboard-list">
+        </ul>
     </div>
 </body>
 </html>

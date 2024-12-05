@@ -1,0 +1,78 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+body {
+    background-image: url(treesBG.avif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.loginH {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 50px;
+    background-color: black;
+    padding: 0px; 
+    width: fit-content;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+.signUpH {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 50px;
+    background-color: black;
+    padding: 10px; 
+    width: fit-content;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+.items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 65vh;
+}
+.itemsSignUp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
+}
+.usernameClass label, .passwordClass label, .firstNameClass label, .lastNameClass label, .emailClass label {
+    font-size: 50px;
+    margin-right: 10px;
+}
+.usernameClass input, .passwordClass input, .firstNameClass input, .lastNameClass input, .emailClass input {
+    font-size: 1.2em;
+    padding: 8px;
+    width: 250px;
+    margin: 20px; 
+    border: 2px solid black;
+}
+.loginButton, .backButton, .signupButton {
+    color: black;
+    background-color: white;
+    font-size: 18px;
+    border: 3px solid black;
+    cursor: pointer;
+    width: 120px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+.loginButton:hover, .backButton:hover {
+    transform: scale(1.01); /*increase button size on hover */
+}

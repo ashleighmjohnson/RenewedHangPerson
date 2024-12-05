@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <style>
+         .SignInButton {
+            color: black; 
+            background-color: white; 
+            font-size: 16px;
+            border-radius: 10px black;
+            cursor: pointer;
+            width: 200px; 
+            height: 60x; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            border: 5px solid black; 
+            margin: 30px;
+        }
         body {
             display: flex;
             flex-direction: column;
@@ -76,7 +92,8 @@
 </head>
 <body>
     <audio src='/Valorant.mp3' autoplay></audio>
-
+    <button class="SignInButton" onclick="window.location.href='signup.html'"><span class="button-text-S">Sign
+        Up</span></button>
     <div class="login-container">
         <div><h2>Login</h2></div>
         <div>

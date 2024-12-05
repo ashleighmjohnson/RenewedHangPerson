@@ -6,12 +6,11 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-// Configure MySQL connection
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Aj157881!",
-    port: 3307,
+    password: "McLa1910",
+    port: 3306,
     database: 'hangperson'
 });
 
@@ -20,11 +19,10 @@ db.connect(err => {
     console.log('Connected to MySQL database.');
 });
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public'))); // Serves static files (CSS, JS, etc.)
-// Routes
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
     res.sendFile(path.join(__dirname, 'public', `/playingPage.html`));
@@ -35,14 +33,13 @@ var routes = [
     { menu: 'Leaderboard', link: '/leaderboard' },
     { menu: 'Settings', link: '/words' },
     { menu: 'LogOff', link: '/logoff' }
-    ]
+];
 routes.forEach((route) => {
     console.log(route);
     app.get(`${route.link}`, (req, res) => {
         res.sendFile(path.join(__dirname, 'public', `/${route.link}.html`));
     });
-})
-
+});
 
 app.get('/menu', (req, res) => {
     res.json(routes);
@@ -52,7 +49,6 @@ app.get('/add-word', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'add-word.html'));
 });
 
-// Login API 
 app.all('/login', (req, res) => {
     const { username, pword } = req.body;
     console.log(req.body);
@@ -67,7 +63,6 @@ app.all('/login', (req, res) => {
     });
 });
 
-// Words API 
 app.get('/get-words', (req, res) => {
     const query = 'SELECT * FROM words';
     db.query(query, (err, results) => {
@@ -77,10 +72,10 @@ app.get('/get-words', (req, res) => {
 });
 
 app.post('/add-word', (req, res) => {
-    const { word, hint } = req.body;
+    const { word } = req.body;
     console.log(req.body); 
-    const query = 'INSERT INTO words (word, hint) VALUES (?, ?)';
-    db.query(query, [word, hint], (err, result) => {
+    const query = 'INSERT INTO words (word) VALUES (?)';
+    db.query(query, [word], (err, result) => {
         if (err) throw err;
         res.json({ success: true, message: 'Word added!' });
     });
@@ -92,7 +87,7 @@ app.post('/edit-word', (req, res) => {
     const query = 'UPDATE words SET word = ? WHERE id = ?';
     db.query(query, [word, id], (err, result) => {
         if (err) throw err;
-        res.json({ success: true, message: 'Word adited!' });
+        res.json({ success: true, message: 'Word edited!' });
     });
 });
 
@@ -106,26 +101,51 @@ app.post('/delete-word', (req, res) => {
     });
 });
 
-// Words API 
-app.get('/score-game', (req, res) => {
-    // track if user won or lost
-    // update streaks
-});
+// Signup route
+app.post('/signup', (req, res) => {
+    const { firstName, email, username, pword } = req.body;
 
-// Words API 
-app.get('/get-leaders', (req, res) => {
-    // track every game played
-    // summarize on the user table
-    // add columns to user table for solved, streak, games_played
-    // add table to tracked word, date, outcome
-    const query = 'SELECT * FROM Users';
-    db.query(query, (err, results) => {
-        if (err) throw err;
-        res.json(results);
+    const userQuery = 'INSERT INTO Users (firstName, email, username, pword) VALUES (?, ?, ?, ?)';
+    const userValues = [firstName, email, username, pword];
+
+    db.query(userQuery, userValues, (err, result) => {
+        if (err) {
+            console.error('Error inserting user data:', err);
+            return res.status(500).send({ success: false, message: 'Database error inserting user' });
+        }
+        console.log('User inserted with ID:', result.insertId);  
+
+        const userId = result.insertId;
+        const leaderboardQuery = 'INSERT INTO leaderboard (username, user_id, puzzles_completed, daily_streak) VALUES (?, ?, ?, ?)';
+        const leaderboardValues = [username, userId, 0, 0]; // Default values for puzzles_completed and daily_streak
+
+        db.query(leaderboardQuery, leaderboardValues, (err, result) => {
+            if (err) {
+                console.error('Error inserting into leaderboard:', err);
+                return res.status(500).send({ success: false, message: 'Database error inserting into leaderboard' });
+            }
+
+            console.log('Leaderboard entry created for user ID:', userId); 
+            res.status(200).send({ success: true, message: 'User registered and leaderboard updated successfully' });
+        });
     });
 });
 
-// Start server 
+app.get('/leaderboard', (req, res) => {
+    const query = 'SELECT username, puzzles_completed, daily_streak FROM leaderboard ORDER BY puzzles_completed DESC';
+    
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching leaderboard:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        
+        res.json(results); 
+    });
+});
+
+
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
