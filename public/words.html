@@ -11,12 +11,14 @@
 
         async function addWord() {
             const word = document.getElementById('newWord').value;
+            const hint = document.getElementById('hint').value;
+
             const response = await fetch('/add-word', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ word })
+                body: JSON.stringify({ word, hint })
             });
             if (response.ok) {
                 document.getElementById('newWord').value = '';
@@ -35,7 +37,7 @@
                 words.forEach(word => {
                     const li = document.createElement('li');
                     li.innerHTML = `
-                        <span>${word.word}</span>
+                        <span>${word.word} : ${word.hint}</span>
                         <div class="word-actions">
                             <button onclick="editWord('${word.id}', '${word.word}')">Edit</button>
                             <button onclick="deleteWord('${word.id}')">Delete</button>
@@ -93,9 +95,8 @@
     <!-- do not delete menu -->
     <div id="menu"></div>
     <div id="container" style="margin-top:45px;">
-
-        <h1>Words</h1>
-        <input type="text" id="newWord" placeholder="Enter a new word">
+        <h1 >Words</h1>
+        <input type="text" id="newWord" placeholder="Enter a new word" style="width:125px;"><input type="text" id="hint" placeholder="Enter a hint">
         <button onclick="addWord()">Add Word</button>
         <h2>Word List</h2>
         <ul id="wordsList"></ul>

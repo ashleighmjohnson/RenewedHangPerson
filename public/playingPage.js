@@ -36,6 +36,7 @@ const gameOver = (isVictory) => {
         gameModel.querySelector("h4").innerText = `${isVictory ? 'Congrats!' : 'Game Over'}`;
         gameModel.querySelector("p").innerHTML = `${modelText ? `<b>${currentWord}</b>` : ''}`;
         gameModel.classList.add("show");
+        
     }, 300);
 }
 
