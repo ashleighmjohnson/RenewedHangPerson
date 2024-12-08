@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="welcomePage.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js"></script>
+</head>
+
+<body>
+    <div id="menu"></div>
+    
+    <div class="head">
+        <h1>Welcome to HangPerson!</h1>
+        <p><b>Continue by choosing HangWoman or HangMan:</b></p>
+    </div>
+
+    <audio src='/Valorant.mp3' autoplay></audio>
+
+    <div class="buttons">
+        <a href="playingPageW.html">
+        <button class="womanButton"><span class="button-text-W">Play HangWoman!</span></button>
+        </a>
+        <a href="playingPage.html">
+        <button class="manButton"><span class="button-text-M">Play HangMan!</span></button>
+        </a>
+    </div>
+
+    <p>Ashleigh Johnson and Ryan McLaughlin</p>
+
+    <script>
+        menu(); 
+        const audio = document.getElementById('audio');
+
+        audio.volume = 0.5;
+    </script>
+</body>
+
+
+</html>
