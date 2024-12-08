@@ -68,6 +68,24 @@
                 }
             }
         }
+        async function editHint(id, oldHint) {
+            const word = prompt('Edit Hint:', oldHint);
+            if (word && word !== oldWord) {
+                const response = await fetch('/edit-hint', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id, word })
+                });
+                if (response.ok) {
+                    alert('Hint edited');
+                    loadWords();
+                } else {
+                    alert('Failed to edit hint');
+                }
+            }
+        }
 
         async function deleteWord(id) {
             const response = await fetch('/delete-word', {

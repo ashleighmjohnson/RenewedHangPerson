@@ -4,20 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play HangPerson</title>
+    <title>Document</title>
     <link rel="stylesheet" href="playingPage.css">
     <link rel="stylesheet" href="style.css">
-    <script>
-        var wordList=[];
-        async function loadWords() {
-            const response = await fetch('/get-words');
-            if (response.ok) {
-               wordList = await response.json();
-           }
-        }
-        loadWords();
-    </script>
-    
+    <script src="word-list.js" defer></script>
     <script src="playingPage.js" defer></script>
     <script src="scripts.js"></script>
 </head>

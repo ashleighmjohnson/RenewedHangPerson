@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        <audio src='/Valorant.mp3' autoplay></audio>
+        async function menu() {
+            const response = await fetch('/menu');
+            if (response.ok) {
+                const menuItems = await response.json();
+                const menuList = document.getElementById('menu');
+                menuItems.forEach(menu => {
+                    const div = document.createElement('div');
+                    div.textContent = menu.menu;
+                    div.style.color = '#fff';
+                    div.style.cursor = 'pointer';
+                    div.onclick = () => {
+                        window.location.href = menu.link;
+                    };
+                    menuList.appendChild(div);
+                });
+            } else {
+                alert('Failed to load words');
+            }
+        }
+        menu();
+    </script>
+</head>
+<body>
+    <!-- do not delete menu -->
+    <!-- <div id="menu"></div>
+    <div id="container">
+        <h2>LeaderBoard</h2>
+        <ul id="leaderBoard"></ul>
+         -->
+
+         <div class="leaderboard">
+            <h2>Leaderboard</h2>
+            <ul id="leaderboard-list">
+                <li><b>Player 1:</b> 10 puzzles completed (Streak: 5)</li>
+                <li><b>Player 2:</b> 8 puzzles completed (Streak: 2)</li>
+                <li><b>Player 3:</b> 7 puzzles completed (Streak: 4)</li>
+                <li><b>Player 4:</b> 5 puzzles completed (Streak: 1)</li>
+                <li><b>Player 5:</b> 3 puzzles completed (Streak: 0)</li>
+            </ul>
+        </div>
+
+        
+    </div>
+</body>
+</html>
